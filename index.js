@@ -1,10 +1,10 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const SVG = require("svg");
-const shapes = require("./lib/shapes.js");
+const Shape = require("./lib/shapes");
 // const generateMarkdown = require("./Assets/generateMarkdown");
 
-var draw = SVG();
+// var draw = SVG();
 
 //Questions array
 const questions = () => {
@@ -14,7 +14,7 @@ const questions = () => {
             name: "textInput",
             message: "Enter up to three characters",
             validate: textInput => {
-                if(textInput <= 3) {
+                if(textInput.length <= 3) {
                     return true;
                 } else {
                     console.log("Please enter a maximum of 3 characters")
@@ -66,9 +66,9 @@ const questions = () => {
     ])
 };
 
-function writeToFile(data) {
+function generateSvg(data) {
     return new Promise((resolve, reject) => {
-        fs.draw("./logo.svg", data, err => {
+        fs.writeFile("./logo.svg", data, err => {
             if(err) {
                 reject(err);
                 return;
@@ -85,8 +85,8 @@ function writeToFile(data) {
 async function init() {
     try {
         const svgData = await questions();
-        const logoSvg = generateSvg(svgData);
-        await writeToFile(logoSvg);
+        const logoSvg = Shape.generateSvgString(svgData);
+        await generateSvg(logoSvg);
         console.log("Generate logo.svg successfully!");
     } catch (error) {
         console.error("An error occurred:", error);
