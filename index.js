@@ -21,7 +21,7 @@ const questions = [
     },
     {
         type: "input", 
-        name: "textcolor",
+        name: "textColor",
         message: "Please enter a color for your text (keyword or a hexadecimal number)",
         validate: textColor => {
             if(textColor) {
